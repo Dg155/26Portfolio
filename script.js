@@ -9,3 +9,13 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.2 });
 
 reveals.forEach(el => observer.observe(el));
+
+document.querySelectorAll(".gallery img").forEach(img => {
+
+    img.addEventListener("click", () => {
+
+        document.getElementById("hero-image").src = img.src;
+
+    });
+
+});
