@@ -22,6 +22,11 @@
         <link rel="icon" href="assets/images/DBLogoYellowTransparent.png">
     </head>
 
+    <div id="lightbox">
+        <button id="lightbox-close" aria-label="Close">&times;</button>
+        <img id="lightbox-image" src="" alt="">
+    </div>
+
     <body>
 
         <header class="fade-in">
@@ -41,12 +46,13 @@
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img id="hero-image" src="assets/images/FC/FellChaser1.png" alt="">
+                        <img class="hero-image" src="assets/images/FC/FellChaser1.png" alt="">
                     </div>
 
                     <div class="project-info">
 
                         <h2>FELLCHASER</h2>
+                        <h3 class="project-role">Co-Lead &amp; Gameplay Engineer</h3>
 
                         <p>
                             Co-led team of 12 people utilizing Unreal Engine 5.3 to develop a 2.5D rogue-like hack and slash game, released on Steam.
@@ -55,15 +61,47 @@
                             Utilized behavior trees / AI controllers to implement a multiphase boss battle, providing players a challenging end goal.
                         </p>
 
+                            <div class="project-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Duration</span>
+                                    <span class="meta-value">8 Months</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Team Size</span>
+                                    <span class="meta-value">12</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Tools</span>
+                                    <span class="meta-value">Unreal Engine 5.3, C++, Perforce</span>
+                                </div>
+                            </div>
+
                     </div>
 
                 </div>
 
-                <div class="gallery">
-                    <img src="assets/images/FC/FellChaser2.png">
-                    <img src="assets/images/FC/FellChaser3.png">
-                    <img src="assets/images/FC/FellChaser4.png">
-                    <img src="assets/images/FC/FellChaser5.png">
+                <div class="gallery-wrapper">
+                    <button class="gallery-arrow prev" aria-label="Previous images">&#10094;</button>
+                    <div class="gallery">
+                        <div class="gallery-track">
+                                <div class="gallery-video">
+                                    <iframe
+                                        src="https://www.youtube.com/watch?v=0VB1SRWLZEM&list=PLt6HBF9O8MW8hQRCCIBitjLfWfT-MTU8j&index=2"
+                                        title="FellChaser Trailer"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                            <img src="assets/images/FC/FellChaser2.png" alt="">
+                            <img src="assets/images/FC/FellChaser3.png" alt="">
+                            <img src="assets/images/FC/FellChaser4.png" alt="">
+                            <img src="assets/images/FC/FellChaser5.png" alt="">
+                            <img src="assets/images/FC/FellChaser4.png" alt="">
+                            <img src="assets/images/FC/FellChaser5.png" alt="">
+                        </div>
+                    </div>
+                    <button class="gallery-arrow next" aria-label="Next images">&#10095;</button>
                 </div>
 
             </section>
@@ -74,7 +112,7 @@
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img id="hero-image" src="assets/images/FC/FellChaser1.png" alt="">
+                        <img class="hero-image" src="assets/images/MTHC/MusicalMadness1.png" alt="">
                     </div>
 
                     <div class="project-info">
