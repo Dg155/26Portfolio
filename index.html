@@ -20,28 +20,34 @@
 
         <!-- Favicon -->
         <link rel="icon" href="assets/images/DBLogoYellowTransparent.png">
+
+        <!-- Prevent flash of wrong theme before JS loads -->
+        <script>
+            if (localStorage.getItem('theme') === 'dark' ||
+                (!localStorage.getItem('theme') &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        </script>
+
     </head>
-
-    <div id="lightbox">
-        <button id="lightbox-close" aria-label="Close">&times;</button>
-        <img id="lightbox-image" src="" alt="">
-    </div>
-
-    <!-- TODO: 
-     Reorganize project info to be between subheader and description, and make it 1-2 rows;
-     Add functionality to offset hero image; 
-     Add reverse order for image and description;
-     Add logo to bottom of hero image;
-     Add alt text and proper screenshots. -->
 
     <body>
 
+        <!-- LIGHTBOX -->
+        <div id="lightbox">
+            <button id="lightbox-close" aria-label="Close">&times;</button>
+            <img id="lightbox-image" src="" alt="">
+        </div>
+
+        <!-- HEADER -->
         <header class="fade-in">
         <h1>DANIEL BOGHOSSIAN</h1>
         <nav>
             <a href="#portfolio">Portfolio</a>
             <a href="#about">About Me</a>
             <a href="2026ResumeDanielBoghossian.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
         </nav>
         </header>
 
@@ -53,35 +59,38 @@
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img class="hero-image" src="assets/images/MTHC/MusicalMadness1.png" alt="">
+                        <img class="hero-image" src="assets/images/MTHC/MTHCImage2.jpg" alt=""
+                            style="--hero-x: 0%; --hero-y: -15%; --hero-scale: 1.1;">
+                        <img class="hero-logo" src="assets/images/MTHC/MTHCLogo.png" alt="MTHC logo">
                     </div>
 
                     <div class="project-info">
 
-                        <h2>FELLCHASER</h2>
-                        <h3 class="project-role">Co-Lead &amp; Gameplay Engineer</h3>
+                        <h2>Mark The Headless Chicken</h2>
+                        <h3 class="project-role">Gameplay Engineer</h3>
 
                         <p>
-                            Co-led team of 12 people utilizing Unreal Engine 5.3 to develop a 2.5D rogue-like hack and slash game, released on Steam.
-                            Organized and distributed major programming objectives among 3 engineers, breaking down tasks and providing feedback.
-                            Engineered procedural generation algorithm in C++, allowing designers to manipulate and fine tune patterns in engine.
-                            Utilized behavior trees / AI controllers to implement a multiphase boss battle, providing players a challenging end goal.
+                            Collaborated with a fully remote team to develop a stealth, physics-driven platformer published on Steam with 5K+ wishlists.
+                            Built subsystems in C++ for dynamic audio and visual effects, reducing designer setup time ~30% and improving modularity.
+                            Developed boss battle using behavior trees with custom tasks, services, and decorators, delivering a climactic finale.
+                            Built modular C++ camera shake system, enabling blending of multiple shake patterns and faster designer-driven iteration.
+                            Engineered interactable animal AI system using inheritance/interfaces, supporting 10+ game actors with scalable design.
                         </p>
 
-                            <div class="project-meta">
-                                <div class="meta-item">
-                                    <span class="meta-label">Duration</span>
-                                    <span class="meta-value">8 Months</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Team Size</span>
-                                    <span class="meta-value">12</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Tools</span>
-                                    <span class="meta-value">Unreal Engine 5.3, C++, Perforce</span>
-                                </div>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Duration</span>
+                                <span class="meta-value">12 Months</span>
                             </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Team Size</span>
+                                <span class="meta-value">6</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Tools Used</span>
+                                <span class="meta-value">Unreal Engine 5.5, C++, Perforce</span>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -91,20 +100,20 @@
                     <button class="gallery-arrow prev" aria-label="Previous images">&#10094;</button>
                     <div class="gallery">
                         <div class="gallery-track">
-                                <!-- <div class="gallery-video">
+                                <div class="gallery-video">
                                     <iframe
-                                        src="https://www.youtube.com/watch?v=0VB1SRWLZEM&list=PLt6HBF9O8MW8hQRCCIBitjLfWfT-MTU8j&index=2"
+                                        src="https://www.youtube.com/embed/adARh7zm0mg?si=MluBdwGT6EH5RD05"
                                         title="FellChaser Trailer"
                                         frameborder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen>
                                     </iframe>
-                                </div> -->
-                            <img src="assets/images/FC/FCImage1.jpg" alt="">
-                            <img src="assets/images/FC/FCImage2.jpg" alt="">
-                            <img src="assets/images/FC/FCImage3.jpg" alt="">
-                            <img src="assets/images/FC/FCImage4.jpg" alt="">
-                            <img src="assets/images/FC/FCImage5.jpg" alt="">
+                                </div>
+                            <img src="assets/images/MTHC/MTHCImage1.jpg" alt="">
+                            <img src="assets/images/MTHC/MTHCImage3.jpg" alt="">
+                            <img src="assets/images/MTHC/MTHCImage4.jpg" alt="">
+                            <img src="assets/images/MTHC/MTHCImage5.jpg" alt="">
+                            <img src="assets/images/MTHC/MTHCImage6.jpg" alt="">
                         </div>
                     </div>
                     <button class="gallery-arrow next" aria-label="Next images">&#10095;</button>
@@ -113,12 +122,14 @@
             </section>
 
             <!-- PROJECT SECTION -->
-            <section class="project">
+            <section class="project project-reverse">
 
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img class="hero-image" src="assets/images/FC/Main Menu Splash Art.png" alt="">
+                        <img class="hero-image" src="assets/images/FC/FCHero.png" alt=""
+                            style="--hero-x: 95%; --hero-y: 0%;  --hero-scale: 1;">
+                        <img class="hero-logo" src="assets/images/FC/FCLogo.png" alt="FellChaser logo">
                     </div>
 
                     <div class="project-info">
@@ -133,20 +144,20 @@
                             Utilized behavior trees / AI controllers to implement a multiphase boss battle, providing players a challenging end goal.
                         </p>
 
-                            <div class="project-meta">
-                                <div class="meta-item">
-                                    <span class="meta-label">Duration</span>
-                                    <span class="meta-value">8 Months</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Team Size</span>
-                                    <span class="meta-value">12</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Tools</span>
-                                    <span class="meta-value">Unreal Engine 5.3, C++, Perforce</span>
-                                </div>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Duration</span>
+                                <span class="meta-value">8 Months</span>
                             </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Team Size</span>
+                                <span class="meta-value">12</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Tools Used</span>
+                                <span class="meta-value">Unreal Engine 5.3, C++, Perforce</span>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -156,20 +167,19 @@
                     <button class="gallery-arrow prev" aria-label="Previous images">&#10094;</button>
                     <div class="gallery">
                         <div class="gallery-track">
-                                <!-- <div class="gallery-video">
+                                <div class="gallery-video">
                                     <iframe
-                                        src="https://www.youtube.com/watch?v=0VB1SRWLZEM&list=PLt6HBF9O8MW8hQRCCIBitjLfWfT-MTU8j&index=2"
+                                        src="https://www.youtube.com/embed/keeZMelRRUQ?si=EAF1l5dRB7a3qn9w"
                                         title="FellChaser Trailer"
                                         frameborder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen>
                                     </iframe>
-                                </div> -->
-                            <img src="assets/images/FC/FCImage1.jpg" alt="">
-                            <img src="assets/images/FC/FCImage2.jpg" alt="">
-                            <img src="assets/images/FC/FCImage3.jpg" alt="">
-                            <img src="assets/images/FC/FCImage4.jpg" alt="">
-                            <img src="assets/images/FC/FCImage5.jpg" alt="">
+                                </div>
+                            <img src="assets/images/FC/FCImage1.png" alt="">
+                            <img src="assets/images/FC/FCImage2.png" alt="">
+                            <img src="assets/images/FC/FCImage3.png" alt="">
+                            <img src="assets/images/FC/FCImage4.png" alt="">
                         </div>
                     </div>
                     <button class="gallery-arrow next" aria-label="Next images">&#10095;</button>

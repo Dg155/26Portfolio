@@ -1,25 +1,54 @@
+/* ===========================
+   THEME VARIABLES
+   =========================== */
+:root {
+    --accent:     #f57c1f;
+
+    /* Light mode (default) */
+    --bg:         #f5f5f5;
+    --bg-card:    #ffffff;
+    --bg-header:  #ffffff;
+    --bg-gallery: #111111;
+    --bg-about:   #222222;
+    --text:       #333333;
+    --text-muted: #888888;
+}
+
+html.dark {
+    --bg:         #1a1a1a;
+    --bg-card:    #252525;
+    --bg-header:  #1e1e1e;
+    --bg-gallery: #0a0a0a;
+    --bg-about:   #111111;
+    --text:       #e0e0e0;
+    --text-muted: #aaaaaa;
+}
+
+/* ===========================
+   BASE
+   =========================== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f5f5f5;
-    color: #333;
+    background: var(--bg);
+    color: var(--text);
+    transition: background .3s, color .3s;
 }
 
-:root {
-    --accent: #f57c1f; /* orange — try #ff9800 for brighter, #e8731a for deeper */
-}
-
-/* HEADER */
+/* ===========================
+   HEADER
+   =========================== */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
-    background: white;
-    border-bottom: 4px solid var(--accent);;
+    background: var(--bg-header);
+    border-bottom: 4px solid var(--accent);
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: background .3s;
 }
 
 header h1 {
@@ -28,80 +57,118 @@ header h1 {
     letter-spacing: 2px;
 }
 
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
 nav a {
-    margin-left: 30px;
     text-decoration: none;
-    color: #333;
+    color: var(--text);
     font-weight: bold;
     position: relative;
+    transition: color .3s;
 }
 
 nav a:hover {
     color: var(--accent);
 }
 
-/* SECTION */
-.section {
+/* ===========================
+   THEME TOGGLE BUTTON
+   =========================== */
+
+#theme-toggle {
+    background: none;
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 60px 40px;
-    background: white;
-    margin-bottom: 10px;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: border-color .3s, transform .3s;
 }
 
-.text {
-    flex: 1;
-    padding: 20px;
+#theme-toggle:hover {
+    border-color: var(--accent);
+    transform: rotate(20deg);
 }
 
-.text h2 {
-    color: var(--accent);
-}
-
-/* ABOUT */
-#about {
-    padding: 80px 40px;
-    background: #222;
-    color: white;
-    text-align: center;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .section {
-    flex-direction: column !important;
-    }
-
-    nav a {
-    margin-left: 15px;
-    }
-}
-
+/* ===========================
+   PROJECT GRID
+   =========================== */
 .project-main {
     display: grid;
     grid-template-columns: 70% 30%;
-    align-items: start;
 }
+
+.project-reverse .project-main {
+    grid-template-columns: 30% 70%;
+}
+
+.project-reverse .project-info { order: 1; }
+.project-reverse .project-hero { order: 2; }
 
 .project-hero {
+    position: relative;
     clip-path: inset(0);
-    aspect-ratio: 2.25 / 1; 
+    width: 100%;
     height: 100%;
+    min-height: 480px;
 }
 
-.project-hero img {
+.project-hero img.hero-image {
     position: fixed;
     top: 0;
     left: 0;
-    width: 70%;     
+    width: 70%;
     height: 100vh;
     object-fit: cover;
+    object-position: var(--hero-x, 50%) 50%;
+    transform: translateY(var(--hero-y, 0px)) scale(var(--hero-scale, 1));
+    transform-origin: center center;
 }
+
+.project-reverse .project-hero img.hero-image {
+    left: 30%;
+}
+
+/* ===========================
+   HERO LOGO
+   =========================== */
+
+.hero-logo {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;                
+    max-width: 280px;
+    max-height: 220px;
+    object-fit: contain;
+    z-index: 2;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .7)); /* Add shadow for better visibility */
+}
+
+.project-reverse .hero-logo {
+    right: auto;
+    left: 20px;
+}
+
+/* ===========================
+   PROJECT INFO
+   =========================== */
 
 .project-info {
     padding: 60px;
-    background: white;
+    background: var(--bg-card);
     height: 100%;
+    transition: background .3s;
 }
 
 .project-info h2 {
@@ -110,46 +177,71 @@ nav a:hover {
     letter-spacing: 1px;
 }
 
+.project-info p {
+    font-size: 17px;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    margin: 0;
+}
+
 .project-role {
     margin: 0 0 20px;
     font-size: 14px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: #888;
+    color: var(--text-muted);
+    transition: color .3s;
 }
 
+/* ===========================
+   META BAR
+   =========================== */
+
 .project-meta {
-    margin-top: 30px;
-    padding-top: 20px;
+    margin: 20px 0 24px;
+    padding: 14px 0;
     border-top: 2px solid var(--accent);
     display: flex;
-    flex-direction: column;
-    gap: 14px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .meta-item {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-width: 0; 
+}
+
+.meta-item:last-child {
+    flex: 1.5;                  /* give "Tools" extra room */
 }
 
 .meta-label {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     color: var(--accent);
 }
 
 .meta-value {
     font-size: 14px;
-    color: #333;
+    color: var(--text);
     margin-top: 2px;
+    transition: color .3s;
 }
+
+/* ===========================
+   GALLERY
+   =========================== */
 
 .gallery-wrapper {
     position: relative;
-    background: #111;
+    background: var(--bg-gallery);
+    transition: background .3s;
 }
 
 .gallery {
@@ -170,7 +262,6 @@ nav a:hover {
 }
 
 .gallery-track img {
-    /* exactly 4 visible: 100% minus the 3 gaps between them, divided by 4 */
     flex: 0 0 calc((100% - 6px) / 4);
     object-fit: cover;
     cursor: pointer;
@@ -213,7 +304,10 @@ nav a:hover {
 .gallery-arrow.next { right: 0; }
 .gallery-arrow.hidden { display: none; }
 
-/* LIGHTBOX */
+/* ===========================
+   LIGHTBOX
+   =========================== */
+
 #lightbox {
     position: fixed;
     inset: 0;
@@ -250,3 +344,44 @@ nav a:hover {
 }
 
 #lightbox-close:hover { color: var(--accent); }
+
+/* ===========================
+   ABOUT
+   =========================== */
+#about {
+    padding: 80px 40px;
+    background: var(--bg-about);
+    color: white;
+    text-align: center;
+    transition: background .3s;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 900px) {
+    .project-main {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Reset order so hero is always on top */
+    .project-hero,
+    .project-info {
+        order: 0 !important;
+    }
+
+    /* Hero fills full width on mobile */
+    .project-hero img.hero-image {
+        width: 100% !important;
+        left: 0 !important;
+    }
+
+    .hero-logo {
+        right: 20px !important;
+        left: auto !important;
+        bottom: 20px;
+        max-width: 120px;
+    }
+
+    nav { gap: 15px; }
+}

@@ -1,17 +1,42 @@
-const reveals = document.querySelectorAll('.section, #about, #resume');
+// ===== THEME TOGGLE =====
+const themeToggle = document.getElementById("theme-toggle");
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-    }
-  });
-}, { threshold: 0.2 });
+function applyTheme(dark) {
+    document.documentElement.classList.toggle("dark", dark);
+    themeToggle.textContent = dark ? "☀️" : "🌙";
+    localStorage.setItem("theme", dark ? "dark" : "light");
+}
 
-reveals.forEach(el => observer.observe(el));
+// On load: honour saved choice, else match OS preference
+// (the inline <script> in <head> already added the class to prevent flash,
+//  but we still need to set the button icon here)
+const saved = localStorage.getItem("theme");
+if (saved) {
+    applyTheme(saved === "dark");
+} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    applyTheme(true);
+}
+
+themeToggle.addEventListener("click", () => {
+    applyTheme(!document.documentElement.classList.contains("dark"));
+});
+
+// ===== FADE-IN OBSERVER =====
+const reveals = document.querySelectorAll(".section, #about, #resume");
+
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("active");
+        });
+    },
+    { threshold: 0.2 }
+);
+
+reveals.forEach((el) => observer.observe(el));
 
 // ===== CAROUSEL =====
-document.querySelectorAll(".gallery-wrapper").forEach(wrapper => {
+document.querySelectorAll(".gallery-wrapper").forEach((wrapper) => {
     const track = wrapper.querySelector(".gallery-track");
     const items = track.children;
     const prev = wrapper.querySelector(".prev");
@@ -20,7 +45,6 @@ document.querySelectorAll(".gallery-wrapper").forEach(wrapper => {
     const maxIndex = Math.max(0, items.length - VISIBLE);
     let index = 0;
 
-    // Hide arrows entirely if 4 or fewer images
     if (items.length <= VISIBLE) {
         prev.classList.add("hidden");
         next.classList.add("hidden");
@@ -29,14 +53,20 @@ document.querySelectorAll(".gallery-wrapper").forEach(wrapper => {
     }
 
     function update() {
-        const step = items[0].getBoundingClientRect().width + 2; // image + 2px gap
+        const step = items[0].getBoundingClientRect().width + 2;
         track.style.transform = `translateX(${-index * step}px)`;
         prev.disabled = index === 0;
         next.disabled = index === maxIndex;
     }
 
-    prev.addEventListener("click", () => { index = Math.max(0, index - 1); update(); });
-    next.addEventListener("click", () => { index = Math.min(maxIndex, index + 1); update(); });
+    prev.addEventListener("click", () => {
+        index = Math.max(0, index - 1);
+        update();
+    });
+    next.addEventListener("click", () => {
+        index = Math.min(maxIndex, index + 1);
+        update();
+    });
     window.addEventListener("resize", update);
     update();
 });
@@ -45,11 +75,11 @@ document.querySelectorAll(".gallery-wrapper").forEach(wrapper => {
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 
-document.querySelectorAll(".gallery-track img").forEach(img => {
+document.querySelectorAll(".gallery-track img").forEach((img) => {
     img.addEventListener("click", () => {
         lightboxImage.src = img.src;
         lightbox.classList.add("active");
-        document.body.style.overflow = "hidden"; // stop page scrolling behind it
+        document.body.style.overflow = "hidden";
     });
 });
 
@@ -58,10 +88,10 @@ function closeLightbox() {
     document.body.style.overflow = "";
 }
 
-lightbox.addEventListener("click", e => {
-    if (e.target !== lightboxImage) closeLightbox(); // click backdrop/X closes
+lightbox.addEventListener("click", (e) => {
+    if (e.target !== lightboxImage) closeLightbox();
 });
 
-document.addEventListener("keydown", e => {
+document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeLightbox();
 });
