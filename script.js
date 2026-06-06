@@ -21,19 +21,37 @@ themeToggle.addEventListener("click", () => {
     applyTheme(!document.documentElement.classList.contains("dark"));
 });
 
-// ===== FADE-IN OBSERVER =====
-const reveals = document.querySelectorAll(".section, #about, #resume");
+// ===== PRELOADER =====
+const preloader = document.getElementById("preloader");
 
-const observer = new IntersectionObserver(
+if (preloader) {
+    // Lock scroll but keep scrollbar visible
+    document.body.classList.add("scroll-locked");
+
+    window.addEventListener("load", () => {
+        setTimeout(() => {
+            preloader.remove();
+            document.body.classList.remove("scroll-locked");
+        }, 2300); // Time delay to allow user to scroll
+    });
+}
+
+// ===== SCROLL REVEAL =====
+const revealEls = document.querySelectorAll(".reveal");
+
+const revealObserver = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
-            if (entry.isIntersecting) entry.target.classList.add("active");
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                revealObserver.unobserve(entry.target); // reveal once, then stop watching
+            }
         });
     },
-    { threshold: 0.2 }
+    { threshold: 0.15 }
 );
 
-reveals.forEach((el) => observer.observe(el));
+revealEls.forEach((el) => revealObserver.observe(el));
 
 // ===== CAROUSEL =====
 document.querySelectorAll(".gallery-wrapper").forEach((wrapper) => {

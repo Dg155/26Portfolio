@@ -9,7 +9,6 @@
     --bg-card:    #ffffff;
     --bg-header:  #ffffff;
     --bg-gallery: #111111;
-    --bg-about:   #222222;
     --text:       #333333;
     --text-muted: #888888;
 }
@@ -19,7 +18,6 @@ html.dark {
     --bg-card:    #252525;
     --bg-header:  #1e1e1e;
     --bg-gallery: #0a0a0a;
-    --bg-about:   #111111;
     --text:       #e0e0e0;
     --text-muted: #aaaaaa;
 }
@@ -27,6 +25,11 @@ html.dark {
 /* ===========================
    BASE
    =========================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -55,6 +58,18 @@ header h1 {
     margin: 0;
     font-size: 20px;
     letter-spacing: 2px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-logo {
+    height: 38px;
+    width: auto;
+    display: block;
 }
 
 nav {
@@ -265,11 +280,12 @@ nav a:hover {
     flex: 0 0 calc((100% - 6px) / 4);
     object-fit: cover;
     cursor: pointer;
-    transition: transform .3s;
+    transition: transform .3s, filter .3s;
 }
 
 .gallery-track img:hover {
     transform: scale(1.03);
+    filter: brightness(1.18); 
 }
 
 .gallery-video {
@@ -303,6 +319,111 @@ nav a:hover {
 .gallery-arrow.prev { left: 0; }
 .gallery-arrow.next { right: 0; }
 .gallery-arrow.hidden { display: none; }
+
+/* ===========================
+   SCROLL LOCK (visible scrollbar)
+   =========================== */
+body.scroll-locked {
+    position: fixed;
+    width: 100%;
+    overflow-y: scroll;
+    top: 0;
+}
+
+/* ===========================
+   PRELOADER
+   =========================== */
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: preloader-fade .8s ease 2.5s forwards;
+}
+
+.preloader-inner {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.hex-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    /* fade the whole outline out once the logo takes over */
+    animation: hex-fade-out .8s ease 1.3s forwards;
+}
+
+/* ---------- individual lines ---------- */
+.hex-line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+}
+
+.hex-line.p1 {
+    animation: hex-draw .5s ease forwards,
+               hex-flash .5s ease forwards;
+}
+.hex-line.p2 {
+    animation: hex-draw .5s ease .4s forwards,
+               hex-flash .5s ease .4s forwards;
+}
+.hex-line.p3 {
+    animation: hex-draw .5s ease .8s forwards,
+               hex-flash .5s ease .8s forwards;
+}
+
+/* ---------- logo inside hex ---------- */
+.hex-logo {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    animation: logo-fade .8s ease 1.3s forwards;
+}
+
+/* ---------- keyframes ---------- */
+@keyframes hex-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes hex-flash {
+    0%   { filter: drop-shadow(0 0 0 transparent); }
+    35%  { filter: drop-shadow(0 0 10px var(--accent))
+                   drop-shadow(0 0 25px var(--accent)); }
+    100% { filter: drop-shadow(0 0 3px var(--accent)); }
+}
+
+@keyframes hex-fade-out {
+    to { opacity: 0; }
+}
+
+@keyframes logo-fade {
+    to { opacity: 1; }
+}
+
+@keyframes preloader-fade {
+    to { opacity: 0; visibility: hidden; }
+}
+
+/* ---------- reduced-motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    #preloader { animation: preloader-fade .3s ease forwards; }
+    .hex-line  { animation: none; stroke-dashoffset: 0; }
+    .hex-svg   { animation: none; }
+    .hex-logo  { animation: none; opacity: 1; }
+}
 
 /* ===========================
    LIGHTBOX
@@ -349,11 +470,248 @@ nav a:hover {
    ABOUT
    =========================== */
 #about {
-    padding: 80px 40px;
-    background: var(--bg-about);
-    color: white;
+    padding: 80px 60px;
+    background: var(--bg-card);
+    color: var(--text);
+    transition: background .3s, color .3s;
+}
+
+.about-content {
+    display: flex;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.about-photo {
+    flex: 0 0 320px;
+}
+
+.about-photo img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, .25);
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    color: var(--accent);
+    margin-top: 0;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.about-text p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text);
+    margin: 0 0 16px;
+    transition: color .3s;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+footer {
+    background: #111111;
+    padding: 40px 40px 30px;
     text-align: center;
-    transition: background .3s;
+    border-top: 3px solid var(--accent);
+}
+
+html.dark footer {
+    background: #0a0a0a;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cccccc;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: .5px;
+    transition: color .3s;
+}
+
+.footer-nav a:hover {
+    color: var(--accent);
+}
+
+.footer-nav svg {
+    flex-shrink: 0;
+}
+
+.footer-copy {
+    color: #555555;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* ===========================
+   SCROLL REVEAL
+   =========================== */
+.reveal {
+    opacity: 0;
+    transition: opacity .7s ease, transform .7s ease;
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: none;
+}
+
+.reveal-up    { transform: translateY(40px); }
+.reveal-left  { transform: translateX(-50px); }
+.reveal-right { transform: translateX(50px); }
+
+/* stagger helpers */
+.reveal.delay-1 { transition-delay: .15s; }
+.reveal.delay-2 { transition-delay: .30s; }
+
+/* ===========================
+   HEADER LOAD-IN
+   (plays as the site is revealed)
+   =========================== */
+.fade-in {
+    animation: header-drop .8s ease 3s backwards;
+}
+
+@keyframes header-drop {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ===========================
+   NAV LINK UNDERLINE
+   =========================== */
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .3s ease;
+}
+
+nav a:hover::after {
+    transform: scaleX(1);
+}
+
+/* ===========================
+   FOOTER LINK HOVER
+   =========================== */
+.footer-nav a {
+    position: relative;
+    transition: color .3s ease, transform .3s ease;
+}
+
+.footer-nav a:hover {
+    color: var(--accent);
+    transform: translateY(-3px);
+}
+
+.footer-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .3s ease;
+}
+
+.footer-nav a:hover::after {
+    transform: scaleX(1);
+}
+
+/* ===========================
+   HEADSHOT HOVER
+   =========================== */
+.about-photo img {
+    transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.about-photo img:hover {
+    transform: scale(1.03) translateY(-4px);
+    box-shadow: 0 12px 36px rgba(245, 124, 31, .2),
+                0 0 0 3px var(--accent);
+}
+
+/* ===========================
+   PROJECT TITLE HOVER
+   =========================== */
+.project-info h2 {
+    display: inline-block;
+    transition: transform .3s ease, letter-spacing .3s ease;
+}
+
+.project-info h2:hover {
+    transform: translateX(6px);
+    letter-spacing: 2px;
+}
+
+/* ===========================
+   META ITEM HOVER
+   =========================== */
+.meta-item {
+    transition: transform .3s ease;
+}
+
+.meta-item:hover {
+    transform: translateY(-2px);
+}
+
+.meta-item:hover .meta-value {
+    color: var(--accent);
+    transition: color .3s ease;
+}
+
+/* ===========================
+   BRAND LOGO HOVER
+   =========================== */
+.brand-logo {
+    transition: transform .4s ease, filter .4s ease;
+}
+
+.brand:hover .brand-logo {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 4px var(--accent));
+}
+
+/* ===========================
+   REDUCED MOTION
+   =========================== */
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none;
+    }
+    .fade-in { animation: none; }
 }
 
 /* ===========================
@@ -384,4 +742,25 @@ nav a:hover {
     }
 
     nav { gap: 15px; }
+
+    .brand-logo { height: 30px; }
+
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-photo {
+        flex: none;
+        width: 240px;
+        margin: 0 auto;
+    }
+
+    #about {
+        padding: 60px 24px;
+    }
+
+    .footer-nav {
+        gap: 24px;
+    }
 }
