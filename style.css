@@ -166,8 +166,11 @@ nav a:hover {
     max-height: 220px;
     object-fit: contain;
     z-index: 2;
-    pointer-events: none;
+    pointer-events: auto;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .7)); /* Add shadow for better visibility */
+    transition:
+        transform .35s ease,
+        filter .35s ease;
 }
 
 .project-reverse .hero-logo {
@@ -188,6 +191,7 @@ nav a:hover {
 
 .project-info h2 {
     color: var(--accent);
+    margin-top: 0;
     margin-bottom: 4px;
     letter-spacing: 1px;
 }
@@ -217,6 +221,7 @@ nav a:hover {
     margin: 20px 0 24px;
     padding: 14px 0;
     border-top: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -247,6 +252,50 @@ nav a:hover {
     color: var(--text);
     margin-top: 2px;
     transition: color .3s;
+}
+
+/* ===========================
+   PLAY BUTTON
+   =========================== */
+
+.play-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 14px 20px;
+
+    border-radius: 15px;
+    border: 3px solid var(--accent);
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 18px;
+
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        background .3s ease,
+        color .3s ease;
+}
+
+.play-button:hover {
+    color: var(--accent);
+
+    transform: scale(1.03);
+
+    box-shadow:
+        0 8px 24px rgba(245,124,31,.25),
+        0 0 18px rgba(245,124,31,.15);
 }
 
 /* ===========================
@@ -546,11 +595,10 @@ html.dark footer {
     font-weight: bold;
     font-size: 14px;
     letter-spacing: .5px;
-    transition: color .3s;
-}
-
-.footer-nav a:hover {
-    color: var(--accent);
+    transition:
+        opacity .5s ease,
+        transform .5s ease,
+        color .3s ease;
 }
 
 .footer-nav svg {
@@ -582,18 +630,43 @@ html.dark footer {
 .reveal-right { transform: translateX(50px); }
 
 /* stagger helpers */
-.reveal.delay-1 { transition-delay: .15s; }
-.reveal.delay-2 { transition-delay: .30s; }
+.reveal.delay-1 { transition-delay: .1s; }
+.reveal.delay-2 { transition-delay: .2s; }
+.reveal.delay-3 { transition-delay: .3s; }
+.reveal.delay-4 { transition-delay: .4s; }
+.reveal.delay-5 { transition-delay: .5s; }
 
 /* ===========================
    HEADER LOAD-IN
-   (plays as the site is revealed)
    =========================== */
-.fade-in {
-    animation: header-drop .8s ease 3s backwards;
+header .brand,
+header nav {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: header-child-drop .7s ease forwards;
 }
 
-@keyframes header-drop {
+header .brand {
+    animation-delay: 2.8s;
+}
+
+header nav {
+    animation-delay: 3s;
+}
+
+header nav a,
+#theme-toggle {
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: header-child-drop .5s ease forwards;
+}
+
+header nav a:nth-child(1) { animation-delay: 3ms; }
+header nav a:nth-child(2) { animation-delay: 3.10s; }
+header nav a:nth-child(3) { animation-delay: 3.20s; }
+#theme-toggle      { animation-delay: 3.30s; }
+
+@keyframes header-child-drop {
     from { opacity: 0; transform: translateY(-20px); }
     to   { opacity: 1; transform: none; }
 }
@@ -621,11 +694,6 @@ nav a:hover::after {
 /* ===========================
    FOOTER LINK HOVER
    =========================== */
-.footer-nav a {
-    position: relative;
-    transition: color .3s ease, transform .3s ease;
-}
-
 .footer-nav a:hover {
     color: var(--accent);
     transform: translateY(-3px);
@@ -664,14 +732,53 @@ nav a:hover::after {
 /* ===========================
    PROJECT TITLE HOVER
    =========================== */
-.project-info h2 {
+.project-info h2,
+.about-text h2 {
+    position: relative;
     display: inline-block;
-    transition: transform .3s ease, letter-spacing .3s ease;
 }
 
-.project-info h2:hover {
-    transform: translateX(6px);
-    letter-spacing: 2px;
+.project-info h2::after,
+.about-text h2::after {
+    content: attr(data-text);
+
+    position: absolute;
+    inset: 0;
+
+    color: transparent;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 30%,
+            rgba(255,255,255,.9) 50%,
+            transparent 70%
+        );
+
+    background-size: 250% 100%;
+    background-position: -200% 0;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.project-info h2:hover::after,
+.about-text h2:hover::after {
+    opacity: 1;
+    animation: shine-text .8s ease forwards;
+}
+
+@keyframes shine-text {
+    from {
+        background-position: -200% 0;
+    }
+
+    to {
+        background-position: 200% 0;
+    }
 }
 
 /* ===========================
@@ -681,13 +788,13 @@ nav a:hover::after {
     transition: transform .3s ease;
 }
 
-.meta-item:hover {
-    transform: translateY(-2px);
-}
+/* ===========================
+   HERO LOGO HOVER
+   =========================== */
+.hero-logo:hover {
+    transform: scale(1.08);
 
-.meta-item:hover .meta-value {
-    color: var(--accent);
-    transition: color .3s ease;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,.8))
 }
 
 /* ===========================
