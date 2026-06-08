@@ -70,6 +70,7 @@ header h1 {
     height: 38px;
     width: auto;
     display: block;
+    transition: transform .4s ease, filter .4s ease;
 }
 
 nav {
@@ -294,8 +295,8 @@ nav a:hover {
     transform: scale(1.03);
 
     box-shadow:
-        0 8px 24px rgba(245,124,31,.25),
-        0 0 18px rgba(245,124,31,.15);
+        0 4px 20px rgba(245,124,31,.25),
+        0 0 12px rgba(245,124,31,.15);
 }
 
 /* ===========================
@@ -730,65 +731,6 @@ nav a:hover::after {
 }
 
 /* ===========================
-   PROJECT TITLE HOVER
-   =========================== */
-.project-info h2,
-.about-text h2 {
-    position: relative;
-    display: inline-block;
-}
-
-.project-info h2::after,
-.about-text h2::after {
-    content: attr(data-text);
-
-    position: absolute;
-    inset: 0;
-
-    color: transparent;
-
-    background:
-        linear-gradient(
-            120deg,
-            transparent 30%,
-            rgba(255,255,255,.9) 50%,
-            transparent 70%
-        );
-
-    background-size: 250% 100%;
-    background-position: -200% 0;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    opacity: 0;
-    pointer-events: none;
-}
-
-.project-info h2:hover::after,
-.about-text h2:hover::after {
-    opacity: 1;
-    animation: shine-text .8s ease forwards;
-}
-
-@keyframes shine-text {
-    from {
-        background-position: -200% 0;
-    }
-
-    to {
-        background-position: 200% 0;
-    }
-}
-
-/* ===========================
-   META ITEM HOVER
-   =========================== */
-.meta-item {
-    transition: transform .3s ease;
-}
-
-/* ===========================
    HERO LOGO HOVER
    =========================== */
 .hero-logo:hover {
@@ -800,13 +742,9 @@ nav a:hover::after {
 /* ===========================
    BRAND LOGO HOVER
    =========================== */
-.brand-logo {
-    transition: transform .4s ease, filter .4s ease;
-}
-
 .brand:hover .brand-logo {
     transform: scale(1.08);
-    filter: drop-shadow(0 0 4px var(--accent));
+    filter: drop-shadow(0 0 8px var(--accent));
 }
 
 /* ===========================
