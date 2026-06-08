@@ -56,18 +56,16 @@ themeToggle.addEventListener("click", () => {
 // ════════════════════════════════════════
 
 const preloader = document.getElementById("preloader");
-const PRELOADER_DELAY = 2300; // ms the preloader stays visible after load
+const PRELOADER_DELAY = 2300;
 
 if (preloader) {
     document.body.classList.add("scroll-locked");
 
-    window.addEventListener("load", () => {
-        setTimeout(() => {
-            preloader.remove();
-            document.body.classList.remove("scroll-locked");
-            initScrollReveal();
-        }, PRELOADER_DELAY);
-    });
+    setTimeout(() => {
+        preloader.remove();
+        document.body.classList.remove("scroll-locked");
+        initScrollReveal();
+    }, PRELOADER_DELAY);
 } else {
     initScrollReveal();
 }
