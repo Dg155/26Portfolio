@@ -14,8 +14,11 @@
         <meta name="author" content="Daniel Boghossian">
         <meta name="keywords" content="Daniel Boghossian, UC Irvine, Game, Game Developer, Software, Unreal, Unity, C++, C#, Portfolio">
 
-        <!--Javascript-->
-        <script type="module" src="script.js" defer></script>
+        <!-- EmailJS SDK (loads synchronously before script.js) -->
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+        <!-- Main Script (defer — runs after DOM parsed & after EmailJS is available) -->
+        <script src="script.js" defer></script>
 
         <!-- Favicon -->
         <link rel="icon" href="assets/images/DBLogoYellowTransparent.png">
@@ -37,13 +40,10 @@
         <div id="preloader">
             <div class="preloader-inner">
                 <svg class="hex-svg" viewBox="0 0 200 200" aria-hidden="true">
-                    <!-- Pair 1: top-right & bottom-left (flow begins) -->
                     <line class="hex-line p1" x1="181.4" y1="53"  x2="100"   y2="6"   pathLength="1"/>
                     <line class="hex-line p1" x1="18.6"  y1="147" x2="100"   y2="194" pathLength="1"/>
-                    <!-- Pair 2: top-left & bottom-right (continues the sweep) -->
                     <line class="hex-line p2" x1="100"   y1="6"   x2="18.6"  y2="53"  pathLength="1"/>
                     <line class="hex-line p2" x1="100"   y1="194" x2="181.4" y2="147" pathLength="1"/>
-                    <!-- Pair 3: left & right (closes the loop) -->
                     <line class="hex-line p3" x1="18.6"  y1="53"  x2="18.6"  y2="147" pathLength="1"/>
                     <line class="hex-line p3" x1="181.4" y1="147" x2="181.4" y2="53"  pathLength="1"/>
                 </svg>
@@ -57,8 +57,29 @@
             <img id="lightbox-image" src="" alt="Lightbox Image">
         </div>
 
+        <!-- CONTACT MODAL -->
+        <div id="contact-modal" class="modal-overlay">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+                <button id="contact-modal-close" class="modal-close" aria-label="Close">&times;</button>
+                <h2 id="contact-modal-title">Get In Touch</h2>
+                <form id="contact-form" novalidate>
+                    <label for="contact-name">Name</label>
+                    <input type="text" id="contact-name" name="name" required autocomplete="name">
+
+                    <label for="contact-email">Your Email</label>
+                    <input type="email" id="contact-email" name="email" required autocomplete="email">
+
+                    <label for="contact-message">Message</label>
+                    <textarea id="contact-message" name="message" rows="5" required></textarea>
+
+                    <button type="submit" class="play-button">Send Message</button>
+                    <p id="contact-status" class="contact-status" aria-live="polite"></p>
+                </form>
+            </div>
+        </div>
+
         <!-- HEADER -->
-        <header class="fade-in">
+        <header>
             <div class="brand">
                 <img class="brand-logo" src="assets/images/DBLogoYellowTransparent.png" alt="Daniel Boghossian logo">
                 <h1>DANIEL BOGHOSSIAN</h1>
@@ -73,29 +94,41 @@
 
         <div id="portfolio">
 
-            <!-- PROJECT SECTION -->
+            <!-- ============ PROJECT: MTHC ============ -->
             <section class="project">
 
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img class="hero-image" src="assets/images/MTHC/MTHCImage2.jpg" alt="Mark The Headless Chicken hero image"
-                            style="--hero-x: 0%; --hero-y: -10%; --hero-scale: 1.2;">
+                        <!--
+                            Hero responsive scaling:
+                              Default (>900px) values live in the style attribute.
+                              Overrides use data-{bp}-{prop} where bp = md(≤900) | sm(≤700) | xs(≤480)
+                              and prop = x | y | scale.  Cascade: xs → sm → md → default.
+                              Tune these values to keep the subject visible at each breakpoint.
+                        -->
+                        <img class="hero-image"
+                            src="assets/images/MTHC/MTHCImage2.jpg"
+                            alt="Mark The Headless Chicken hero image"
+                            style="--hero-x: 0%; --hero-y: -10%; --hero-scale: 1.2;"
+                            data-lg-x="20%"   data-lg-y="0%"  data-lg-scale="1.1"
+                            data-md-x="20%"  data-md-y="-25%"  data-md-scale="1"
+                            data-sm-x="25%"  data-sm-y="-25%"   data-sm-scale="1"
+                            data-xs-x="30%"  data-xs-y="-30%"   data-xs-scale="1">
                         <img class="hero-logo" src="assets/images/MTHC/MTHCLogo.png" alt="MTHC logo">
                     </div>
 
                     <div class="project-info">
-
                         <h2 class="reveal reveal-right">Mark The Headless Chicken</h2>
-                        <h3 class="project-role reveal reveal-right">Gameplay &amp; Systems Engineer</h3>
+                        <h3 class="project-role reveal reveal-right delay-1">Gameplay &amp; Systems Engineer</h3>
 
-                        <p class="reveal reveal-right">
+                        <p class="reveal reveal-right delay-2">
                             As an Engineer, I collaborated with a fully remote team to build systems, and develop core gameplay mechanics.
                             I engineered scalable animal AI using inheritance and interfaces, implemented physics-driven mechanics, and built the game's final boss using custom AI tasks and services.
                             Beyond gameplay, I created reusable C++ subsystems for save data, combat interaction, and dynamic audio/visual feedback, improving designer workflows and establishing a modular foundation.
                         </p>
 
-                        <div class="project-meta reveal reveal-right">
+                        <div class="project-meta reveal reveal-right delay-3">
                             <div class="meta-item">
                                 <span class="meta-label">Duration</span>
                                 <span class="meta-value">12 Months</span>
@@ -110,10 +143,9 @@
                             </div>
                         </div>
 
-                        <div class="reveal reveal-right">
+                        <div class="reveal reveal-right delay-4">
                             <a href="https://store.steampowered.com/app/3766700/Mark_The_Headless_Chicken/" target="_blank" class="play-button">Play Now!</a>
                         </div>
-
                     </div>
 
                 </div>
@@ -128,14 +160,15 @@
                                     title="Mark The Headless Chicken Trailer"
                                     frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen>
+                                    allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
-                            <img src="assets/images/MTHC/MTHCImage1.jpg" alt="Mark sneaking through grass">
-                            <img src="assets/images/MTHC/MTHCImage3.jpg" alt="Mark avoiding a trap">
-                            <img src="assets/images/MTHC/MTHCImage4.jpg" alt="Mark hiding from the farmer">
-                            <img src="assets/images/MTHC/MTHCImage5.jpg" alt="Mark wearing a custom head">
-                            <img src="assets/images/MTHC/MTHCImage6.jpg" alt="Mark with the farm animals">
+                            <img src="assets/images/MTHC/MTHCImage1.jpg" alt="Mark sneaking through grass" loading="lazy">
+                            <img src="assets/images/MTHC/MTHCImage3.jpg" alt="Mark avoiding a trap" loading="lazy">
+                            <img src="assets/images/MTHC/MTHCImage4.jpg" alt="Mark hiding from the farmer" loading="lazy">
+                            <img src="assets/images/MTHC/MTHCImage5.jpg" alt="Mark wearing a custom head" loading="lazy">
+                            <img src="assets/images/MTHC/MTHCImage6.jpg" alt="Mark with the farm animals" loading="lazy">
                         </div>
                     </div>
                     <button class="gallery-arrow next" aria-label="Next images">&#10095;</button>
@@ -143,19 +176,24 @@
 
             </section>
 
-            <!-- PROJECT SECTION -->
+            <!-- ============ PROJECT: FELLCHASER ============ -->
             <section class="project project-reverse">
 
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img class="hero-image" src="assets/images/FC/FCHero.png" alt="FellChaser hero image"
-                            style="--hero-x: 95%; --hero-y: 0%;  --hero-scale: 1;">
+                        <img class="hero-image"
+                            src="assets/images/FC/FCHero.png"
+                            alt="FellChaser hero image"
+                            style="--hero-x: 95%; --hero-y: 0%; --hero-scale: 1;"
+                            data-lg-x="95%"  data-lg-y="5%"  data-lg-scale="1"
+                            data-md-x="90%"  data-md-y="0%"  data-md-scale="1"
+                            data-sm-x="90%"  data-sm-y="0%"  data-sm-scale="1"
+                            data-xs-x="65%"  data-xs-y="0%"  data-xs-scale="1">
                         <img class="hero-logo" src="assets/images/FC/FCLogo.png" alt="FellChaser logo">
                     </div>
 
                     <div class="project-info">
-
                         <h2 class="reveal reveal-left">FELLCHASER</h2>
                         <h3 class="project-role reveal reveal-left">Co-Lead, Programming Lead, VFX Artist</h3>
 
@@ -180,11 +218,9 @@
                             </div>
                         </div>
 
-
                         <div class="reveal reveal-left">
                             <a href="https://store.steampowered.com/app/2793110/FELLCHASER/" target="_blank" class="play-button">Play Now!</a>
                         </div>
-
                     </div>
 
                 </div>
@@ -199,20 +235,22 @@
                                     title="FellChaser Trailer"
                                     frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen>
+                                    allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
-                            <img src="assets/images/FC/FCImage1.png" alt="FellChaser level start">
-                            <img src="assets/images/FC/FCImage2.png" alt="FellChaser Map Selection">
-                            <img src="assets/images/FC/FCImage3.png" alt="FellChaser Combat Scene">
-                            <img src="assets/images/FC/FCImage4.png" alt="FellChaser Trading System">
+                            <img src="assets/images/FC/FCImage1.png" alt="FellChaser level start" loading="lazy">
+                            <img src="assets/images/FC/FCImage2.png" alt="FellChaser Map Selection" loading="lazy">
+                            <img src="assets/images/FC/FCImage3.png" alt="FellChaser Combat Scene" loading="lazy">
+                            <img src="assets/images/FC/FCImage4.png" alt="FellChaser Trading System" loading="lazy">
                             <div class="gallery-video">
                                 <iframe
                                     src="https://www.youtube.com/embed/z3oh93gcaOI?si=3btXQhIOSf9uzWBu"
                                     title="FellChaser Short Combat Loop"
                                     frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen>
+                                    allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
                         </div>
@@ -222,19 +260,24 @@
 
             </section>
 
-            <!-- PROJECT SECTION -->
+            <!-- ============ PROJECT: ENKORE ============ -->
             <section class="project">
 
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img class="hero-image" src="assets/images/ENKORE/EKHeroChars.png" alt="ENKORE hero image"
-                            style="--hero-x: 50%; --hero-y: 10%; --hero-scale: 1.1;">
+                        <img class="hero-image"
+                            src="assets/images/ENKORE/EKHeroChars.png"
+                            alt="ENKORE hero image"
+                            style="--hero-x: 50%; --hero-y: 10%; --hero-scale: 1.1;"
+                            data-lg-x="50%"  data-lg-y="10%"  data-lg-scale="1"
+                            data-md-x="50%"  data-md-y="0%"   data-md-scale="1"
+                            data-sm-x="50%"  data-sm-y="0%"   data-sm-scale="1"
+                            data-xs-x="50%"  data-xs-y="0%"   data-xs-scale="1">
                         <img class="hero-logo" src="assets/images/ENKORE/EKLogo.png" alt="ENKORE logo">
                     </div>
 
                     <div class="project-info">
-
                         <h2 class="reveal reveal-right">EnKore</h2>
                         <h3 class="project-role reveal reveal-right">Network &amp; UI Engineer</h3>
 
@@ -263,7 +306,6 @@
                         <div class="reveal reveal-right">
                             <a href="https://hsdrummond.itch.io/enkore" target="_blank" class="play-button">Play Now!</a>
                         </div>
-
                     </div>
 
                 </div>
@@ -272,16 +314,17 @@
                     <button class="gallery-arrow prev" aria-label="Previous images">&#10094;</button>
                     <div class="gallery">
                         <div class="gallery-track">
-                            <img src="assets/images/ENKORE/EKImage1.png" alt="ENKORE Title Screen">
-                            <img src="assets/images/ENKORE/EKImage2.png" alt="ENKORE Gameplay Image">
-                            <img src="assets/images/ENKORE/EKImage3.png" alt="ENKORE Character Select Screen">
+                            <img src="assets/images/ENKORE/EKImage1.png" alt="ENKORE Title Screen" loading="lazy">
+                            <img src="assets/images/ENKORE/EKImage2.png" alt="ENKORE Gameplay Image" loading="lazy">
+                            <img src="assets/images/ENKORE/EKImage3.png" alt="ENKORE Character Select Screen" loading="lazy">
                             <div class="gallery-video">
                                 <iframe
                                     src="https://www.youtube.com/embed/FSV5x_lHl1o?si=i0GyRbjYyOvxX81X"
                                     title="EnKore Jazz Showcase"
                                     frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen>
+                                    allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
                         </div>
@@ -291,19 +334,24 @@
 
             </section>
 
-            <!-- PROJECT SECTION -->
+            <!-- ============ PROJECT: CELESTIAL CLASH ============ -->
             <section class="project project-reverse">
 
                 <div class="project-main">
 
                     <div class="project-hero">
-                        <img class="hero-image" src="assets/images/CC/CCHero.png" alt="Celestial Clash hero image"
-                            style="--hero-x: 100%; --hero-y: 0%;  --hero-scale: 1;">
+                        <img class="hero-image"
+                            src="assets/images/CC/CCHero.png"
+                            alt="Celestial Clash hero image"
+                            style="--hero-x: 100%; --hero-y: 0%; --hero-scale: 1;"
+                            data-lg-x="90%"  data-lg-y="0%"  data-lg-scale="1"
+                            data-md-x="65%"  data-md-y="0%"  data-md-scale="1"
+                            data-sm-x="75%"  data-sm-y="0%"  data-sm-scale="1"
+                            data-xs-x="80%"  data-xs-y="0%"  data-xs-scale="1">
                         <img class="hero-logo" src="assets/images/CC/CCLogo.png" alt="Celestial Clash logo">
                     </div>
 
                     <div class="project-info">
-
                         <h2 class="reveal reveal-left">Celestial Clash</h2>
                         <h3 class="project-role reveal reveal-left">Network &amp; UI Engineer</h3>
 
@@ -331,7 +379,6 @@
                         <div class="reveal reveal-left">
                             <a href="https://dtrmgiraffe.itch.io/celestial-clash" target="_blank" class="play-button">Play Now!</a>
                         </div>
-
                     </div>
 
                 </div>
@@ -346,14 +393,15 @@
                                     title="Celestial Clash Trailer"
                                     frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen>
+                                    allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
-                            <img src="assets/images/CC/CCImage1.png" alt="Celestial Clash Character Promo">
-                            <img src="assets/images/CC/CCImage2.png" alt="Celestial Clash Gameplay Image">
-                            <img src="assets/images/CC/CCImage3.png" alt="Celestial Clash Character Select Screen">
-                            <img src="assets/images/CC/CCImage4.png" alt="Celestial Clash Combat Scene">
-                            <img src="assets/images/CC/CCImage5.png" alt="Celestial Clash Final Battle Map">
+                            <img src="assets/images/CC/CCImage1.png" alt="Celestial Clash Character Promo" loading="lazy">
+                            <img src="assets/images/CC/CCImage2.png" alt="Celestial Clash Gameplay Image" loading="lazy">
+                            <img src="assets/images/CC/CCImage3.png" alt="Celestial Clash Character Select Screen" loading="lazy">
+                            <img src="assets/images/CC/CCImage4.png" alt="Celestial Clash Combat Scene" loading="lazy">
+                            <img src="assets/images/CC/CCImage5.png" alt="Celestial Clash Final Battle Map" loading="lazy">
                         </div>
                     </div>
                     <button class="gallery-arrow next" aria-label="Next images">&#10095;</button>
@@ -366,7 +414,7 @@
         <div id="about">
             <div class="about-content">
                 <div class="about-photo reveal reveal-left">
-                    <img src="assets/images/Headshot.png" alt="Daniel Boghossian headshot">
+                    <img src="assets/images/Headshot.png" alt="Daniel Boghossian headshot" loading="lazy">
                 </div>
                 <div class="about-text reveal reveal-right delay-1">
                     <h2>About Me</h2>
@@ -402,10 +450,10 @@
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                     <span>GitHub</span>
                 </a>
-                <a href="mailto:danielboghoss@gmail.com" class="reveal reveal-up delay-4">
+                <button type="button" id="email-button" class="reveal reveal-up delay-4">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4 12 13 2 4"/></svg>
                     <span>Email</span>
-                </a>
+                </button>
             </nav>
             <p class="footer-copy">&copy; 2026 Daniel Boghossian</p>
         </footer>
