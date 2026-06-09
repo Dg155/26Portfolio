@@ -42,7 +42,7 @@ function applyTheme(dark) {
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme) {
     applyTheme(savedTheme === "dark");
-} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+} else {
     applyTheme(true);
 }
 
