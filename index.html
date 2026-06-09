@@ -25,9 +25,12 @@
 
         <!-- Prevent flash of wrong theme before JS loads -->
         <script>
-            if (localStorage.getItem('theme') === 'dark' ||
+            if (localStorage.getItem('theme') === 'light' ||
                 (!localStorage.getItem('theme') &&
-                    window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    window.matchMedia('(prefers-color-scheme: light)').matches)) {
+                document.documentElement.classList.remove('dark');
+            }
+            else {
                 document.documentElement.classList.add('dark');
             }
         </script>
