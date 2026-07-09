@@ -843,6 +843,152 @@ nav a:hover::after {
 }
 
 /* ===========================
+   FLOATING SOCIAL MENU
+   =========================== */
+
+.social-menu{
+
+    position:fixed;
+    left:28px;
+    bottom:28px;
+    z-index:2000;
+}
+
+.social-toggle{
+
+    width: 74px;
+    height: 74px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 3px solid var(--accent);
+    cursor: pointer;
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.35);
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.social-toggle img{
+    width:100%;
+    display:block;
+}
+
+.social-toggle:hover{
+    transform:scale(1.07);
+    box-shadow: 0 0 28px rgba(240, 111, 13, 0.35);
+}
+
+/* Stack ABOVE the button */
+
+.social-links{
+
+    position:absolute;
+    bottom:90px;
+    left:0;
+    display:flex;
+    flex-direction:column-reverse;
+    gap:14px;
+    pointer-events:none;
+}
+
+/* Individual buttons */
+
+.social-links a,
+.social-links button{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:max-content;
+    padding:12px 18px;
+    border-radius:23px;
+    border: 2px solid var(--accent);
+    background:var(--bg-card);
+    color:var(--text);
+    text-decoration:none;
+    cursor:pointer;
+    font-weight:bold;
+    opacity:0;
+
+    transform:
+        translateY(20px)
+        scale(.9);
+
+    transition:
+
+        opacity .35s,
+        transform .35s,
+        box-shadow .25s ease,
+        color .3s,
+        border-color .3s;
+}
+
+.social-links svg{
+    width:18px;
+    height:18px;
+}
+
+.social-links a:hover,
+.social-links button:hover{
+
+    color: var(--accent);
+    box-shadow: 0 0 22px rgba(240, 111, 13, 0.35);
+    border-color: var(--accent);
+}
+
+.social-menu.open .social-links a:hover,
+.social-menu.open .social-links button:hover {
+
+    transform: scale(1.06);
+}
+
+/* ===========================
+   SOCIAL NAV HOVER
+   =========================== */
+
+.social-menu.open .social-links{
+    pointer-events:auto;
+}
+
+/* Every item animates separately */
+
+.social-menu.open .social-links>*{
+
+    opacity:1;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+/* Delay each one */
+
+.social-links>*:nth-child(1){
+
+    transition-delay:0ms;
+}
+
+.social-links>*:nth-child(2){
+
+    transition-delay:80ms;
+}
+
+.social-links>*:nth-child(3){
+
+    transition-delay:160ms;
+}
+
+.social-links>*:nth-child(4){
+
+    transition-delay:240ms;
+}
+
+/* ===========================
    HEADSHOT HOVER
    =========================== */
 .about-photo img {
@@ -902,6 +1048,11 @@ img {
     .hero-logo {
         max-width: 220px;
         max-height: 180px;
+    }
+
+    .social-menu{
+        left:20px;
+        bottom:20px;
     }
 }
 
@@ -963,6 +1114,31 @@ img {
     .footer-nav {
         gap: 24px;
     }
+
+    .social-toggle{
+
+        width:64px;
+        height:64px;
+
+    }
+
+    .social-links a,
+    .social-links button{
+
+        padding:10px 16px;
+
+        font-size:.9rem;
+
+        gap:10px;
+
+    }
+
+    .social-links svg{
+
+        width:16px;
+        height:16px;
+
+    }
 }
 
 /* ---- Large phones / small tablets ---- */
@@ -1007,6 +1183,21 @@ img {
 
     .meta-item:last-child {
         flex: 1;
+    }
+
+    .social-menu{
+
+        left:16px;
+        bottom:16px;
+
+    }
+
+    .social-links{
+
+        gap:12px;
+
+        bottom:76px;
+
     }
 }
 
@@ -1123,5 +1314,46 @@ img {
 
     .modal {
         padding: 24px;
+    }
+
+    .social-toggle{
+
+        width:56px;
+        height:56px;
+
+        border-width:2px;
+
+    }
+
+    .social-toggle img{
+
+        width:72%;
+
+    }
+
+    .social-links{
+
+        bottom:66px;
+
+        gap:10px;
+
+    }
+
+    .social-links a,
+    .social-links button{
+
+        padding:8px 14px;
+
+        font-size:.85rem;
+
+        border-width:2px;
+
+    }
+
+    .social-links svg{
+
+        width:15px;
+        height:15px;
+
     }
 }

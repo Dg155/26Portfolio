@@ -256,9 +256,12 @@ const EMAILJS_TEMPLATE_ID = "template_xy5qbbs";
 
 const contactModal      = document.getElementById("contact-modal");
 const emailButton       = document.getElementById("email-button");
+const floatingEmail     = document.getElementById("floating-email");
 const contactModalClose = document.getElementById("contact-modal-close");
 const contactForm       = document.getElementById("contact-form");
 const contactStatus     = document.getElementById("contact-status");
+const socialMenu        = document.querySelector(".social-menu");
+const socialToggle      = document.querySelector(".social-toggle");
 
 function openContactModal() {
     contactModal.classList.add("active");
@@ -271,7 +274,20 @@ function closeContactModal() {
 }
 
 if (emailButton)       emailButton.addEventListener("click", openContactModal);
+if (floatingEmail)     floatingEmail.addEventListener("click", openContactModal);
 if (contactModalClose) contactModalClose.addEventListener("click", closeContactModal);
+
+if (socialToggle) {
+
+    socialToggle.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        socialMenu.classList.toggle("open");
+
+    });
+
+}
 
 if (contactModal) {
     contactModal.addEventListener("click", (e) => {
@@ -338,6 +354,18 @@ document.addEventListener("keydown", (e) => {
 
     if (lightbox.classList.contains("active")) closeLightbox();
     if (contactModal && contactModal.classList.contains("active")) closeContactModal();
+});
+
+document.addEventListener("click", (e) => {
+
+    if (!socialMenu) return;
+
+    if (!socialMenu.contains(e.target)) {
+
+        socialMenu.classList.remove("open");
+
+    }
+
 });
 
 
